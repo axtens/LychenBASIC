@@ -71,7 +71,6 @@ namespace LychenBASIC
                 {
                     if (exception is IScriptEngineException scriptException)
                     {
-                        Console.WriteLine(exception.Source);
                         Console.WriteLine(scriptException.ErrorDetails);
                     }
                 }
