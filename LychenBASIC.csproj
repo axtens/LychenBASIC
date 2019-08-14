@@ -56,6 +56,10 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="scripts\stars.bas" />
+    <Content Include="scripts\test.bas" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.ClearScript.5.5.6\build\Microsoft.ClearScript.targets" Condition="Exists('packages\Microsoft.ClearScript.5.5.6\build\Microsoft.ClearScript.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
