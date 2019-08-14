@@ -213,6 +213,21 @@ namespace LychenBASIC
             Settings["$PROMPT"] = "Lychen>";
         }
 
+        private static void Run(string fname)
+        {
+            if (File.Exists(fname))
+            {
+                try
+                {
+                    vbscriptEngine.Execute(File.ReadAllText(fname));
+                }
+                catch (ScriptEngineException see)
+                {
+                    Console.WriteLine(see.ErrorDetails);
+                }
+            }
+        }
+
         private static void AddSymbols()
         {
             AddInternalSymbols(ref vbscriptEngine);
@@ -221,9 +236,12 @@ namespace LychenBASIC
             vbscriptEngine
                 .Script
                 .Print = (Action<object>)Console.WriteLine;
+            // vbscriptEngine
+            //     .Script
+            //     .Printf = (Action<string, object>)Console.WriteLine;
             vbscriptEngine
                 .Script
-                .Printf = (Action<string, object>)Console.WriteLine;
+                .Run = (Action<string>)Run;
         }
 
         private static void AddInternalSymbols(ref VBScriptEngine vbscriptEngine)
