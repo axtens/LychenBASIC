@@ -75,10 +75,6 @@ namespace LychenBASIC
                         Console.WriteLine(scriptException.ErrorDetails);
                     }
                 }
-                //if (evaluand.GetType() != typeof(Microsoft.ClearScript.VoidResult))
-                //{
-                //    Console.WriteLine($"{evaluand}");
-                //}
             }
 
             if (hasRepl)
@@ -129,51 +125,6 @@ namespace LychenBASIC
 
             } while (cmd != "bye");
         }
-
-        //private static void SetupIncludeFunction()
-        //{
-        //    var obfusc = "CS" + KeyGenerator.GetUniqueKey(36);
-        //
-        //    vbscriptEngine.AddHostObject(obfusc, vbscriptEngine);
-        //    var includeCode = @"
-        //    const console = {
-        //        log: function () {
-        //          var format;
-        //          const args = [].slice.call(arguments);
-        //          if (args.length > 1) {
-        //            format = args.shift();
-        //            args.forEach(function (item) {
-        //              format = format.replace('%s', item);
-        //            });
-        //          } else {
-        //            format = args.length === 1 ? args[0] : '';
-        //          }
-        //          CS.System.Console.WriteLine(format);
-        //        }
-        //      };
-        //    function include(fn) {
-        //        if (CSFile.Exists(fn)) {
-        //            $SYM$.Evaluate(CSFile.ReadAllText(fn));
-        //        } else {
-        //            throw fn + ' not found.';
-        //        }
-        //    }
-        //    function include_once(fn) {
-        //        if (CSFile.Exists(fn)) {
-        //            if (!CSSettings.ContainsKey('included_' + fn)) {
-        //                $SYM$.Evaluate(CSFile.ReadAllText(fn));
-        //                CSSettings.Add('included_' + fn, true);
-        //            } else {
-        //                throw fn + ' already included.';
-        //            }
-        //        } else {
-        //            throw fn + ' not found.';
-        //        }
-        //    }".Replace("$SYM$", obfusc);
-        //
-        //    vbscriptEngine.Evaluate(includeCode);
-        //}
-
         private static void ConnectoToScriptINI(string script)
         {
             var ini = new INI(Path.ChangeExtension(script, ".INI"));
@@ -236,9 +187,7 @@ namespace LychenBASIC
             vbscriptEngine
                 .Script
                 .Print = (Action<object>)Console.WriteLine;
-            // vbscriptEngine
-            //     .Script
-            //     .Printf = (Action<string, object>)Console.WriteLine;
+
             vbscriptEngine
                 .Script
                 .Run = (Action<string>)Run;
@@ -248,11 +197,8 @@ namespace LychenBASIC
         {
             vbscriptEngine.AddHostObject("VBS", vbscriptEngine);
             vbscriptEngine.AddHostType("CSINI", typeof(INI));
-            //vbscriptEngine.AddHostType("CSKeyGenerator", typeof(KeyGenerator));
             vbscriptEngine.AddHostObject("CSSettings", Settings);
             vbscriptEngine.AddHostType("CSLychen", typeof(Program)); // Experimental. No idea if useful or dangerous.
-            //vbscriptEngine.AddHostType("CSReflection", typeof(Reflections));
-            //vbscriptEngine.AddHostType("CSExtension", typeof(Lychen.Extension));
         }
 
         private static void AddSystemSymbols(ref VBScriptEngine vbscriptEngine)
