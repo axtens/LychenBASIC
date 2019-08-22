@@ -160,7 +160,7 @@ namespace LychenBASIC
             Settings["$ARGC"] = cnt;
             Settings["$ARGV"] = argv.ToArray<string>();
             Settings["/COUNT"] = slashCnt;
-            Settings["$PROMPT"] = "Lychen>";
+            Settings["$PROMPT"] = "LychenBASIC: ";
         }
 
         private static void Run(string fname)
@@ -190,6 +190,10 @@ namespace LychenBASIC
             vbscriptEngine
                 .Script
                 .Run = (Action<string>)Run;
+
+            vbscriptEngine
+                .Script
+                .Include = (Action<string>)Run;
         }
 
         private static void AddInternalSymbols(ref VBScriptEngine vbscriptEngine)
