@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.ClearScript;
 using Microsoft.ClearScript.Windows;
 using System.IO;
+using System.Reflection;
 
 namespace LychenBASIC
 {
@@ -194,6 +195,43 @@ namespace LychenBASIC
             vbscriptEngine
                 .Script
                 .Include = (Action<string>)Run;
+
+            vbscriptEngine
+                .Script
+                .Attach = (Action<string, string>)Attach;
+        }
+
+        private static void Attach(string dllPath, string name = "")
+        {
+            var htc = new HostTypeCollection();
+            try
+            {
+                //var assem = System.Reflection.Assembly.LoadFrom(dllPath);
+                var assem = Assembly.Load(AssemblyName.GetAssemblyName(dllPath));
+                htc.AddAssembly(assem);
+                if (name.Length == 0)
+                {
+                    name = assem.FullName.Split(',')[0];
+                }
+
+                vbscriptEngine.AddHostObject(name, htc); //FIXME checkout the hosttypes
+                Console.WriteLine($"Attached {dllPath} as {name}");
+            }
+            catch (ReflectionTypeLoadException rtle)
+            {
+                foreach (var item in rtle.LoaderExceptions)
+                {
+                    Console.WriteLine(item.Message);
+                }
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                Console.WriteLine(fnfe.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private static void AddInternalSymbols(ref VBScriptEngine vbscriptEngine)
