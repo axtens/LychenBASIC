@@ -15,6 +15,7 @@ namespace LychenBASIC
         public static VBScriptEngine vbscriptEngine;
         public static Dictionary<string, object> Settings = new Dictionary<string, object>();
 
+        [STAThread]
         static int Main(string[] args)
         {
             LoadSettingsDictionary(args);
